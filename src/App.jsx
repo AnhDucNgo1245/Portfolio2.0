@@ -15,7 +15,80 @@ const NAV_LINKS = [
   { label: 'Kỹ năng', href: '#skills' },
   { label: 'Dự án', href: '#projects' },
   { label: 'Thành tích', href: '#achievements' },
+  { label: 'Liên hệ', href: '#footer' },
 ]
+
+function NavbarLink({ label, href }) {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="text-sm font-bold text-slate-400 hover:text-yellow-500 transition-all tracking-[0.2em] relative px-6 py-2 flex items-center group shrink-0 uppercase italic"
+    >
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ x: -25, y: -100, opacity: 0, scaleY: 1.5 }}
+            animate={{ 
+              x: -35,
+              y: -15, 
+              opacity: 1, 
+              scaleY: 1,
+              rotate: [0, -2, 2, -1, 1, 0] 
+            }}
+            exit={{ x: -25, y: 60, opacity: 0, scaleY: 0.5 }}
+            transition={{ 
+              y: { type: 'spring', stiffness: 700, damping: 18 },
+              rotate: { duration: 0.25, delay: 0.05 }
+            }}
+            className="absolute z-0 pointer-events-none flex flex-col items-center"
+          >
+            {/* Traditional Chinese Jian (Kiếm Hiệp) */}
+            <svg width="24" height="150" viewBox="0 0 24 150" fill="none" className="text-yellow-500 drop-shadow-[0_0_15px_rgba(234,179,8,0.9)]">
+              {/* Blade - Double edged straight sword */}
+              <path d="M12 10L12 85" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+              <path d="M10.5 10L12 0L13.5 10L12 15L10.5 10Z" fill="currentColor"/>
+              
+              {/* Guard (Cloud-shaped Tsuba) */}
+              <path d="M6 85C6 82 18 82 18 85L12 91L6 85Z" fill="currentColor" stroke="currentColor" strokeWidth="1"/>
+              
+              {/* Handle (Wrapped Tsuka) */}
+              <path d="M12 91L12 110" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round"/>
+              <path d="M10 95L14 97M10 99L14 101M10 103L14 105" stroke="rgba(0,0,0,0.3)" strokeWidth="1.5"/>
+              
+              {/* Pommel with Tassel loop */}
+              <circle cx="12" cy="113" r="3" fill="currentColor"/>
+              
+              {/* Swinging Tassel (Tua rua) */}
+              <motion.g
+                animate={{ rotate: [0, -10, 10, 0] }}
+                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                style={{ originX: '12px', originY: '113px' }}
+              >
+                <path d="M12 113L10 135M12 113L12 145M12 113L14 135" stroke="currentColor" strokeWidth="1" opacity="0.7"/>
+                <circle cx="10" cy="135" r="1.5" fill="currentColor" opacity="0.6"/>
+                <circle cx="12" cy="145" r="1.5" fill="currentColor" opacity="0.6"/>
+                <circle cx="14" cy="135" r="1.5" fill="currentColor" opacity="0.6"/>
+              </motion.g>
+            </svg>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.span 
+        animate={{ x: isHovered ? 12 : 0 }} 
+        className="relative z-10 whitespace-nowrap transition-colors"
+      >
+        {label}
+      </motion.span>
+
+      <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-yellow-500 transition-all duration-300 group-hover:w-full opacity-60" />
+    </a>
+  )
+}
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -36,34 +109,29 @@ function Navbar() {
         scrolled ? 'backdrop-blur-xl bg-[#050e1a]/80 border-b border-white/5 shadow-xl' : ''
       }`}
     >
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <div className="font-serif text-cyan-400 text-xl tracking-wider font-bold">
-          <span className="opacity-50">劍</span> NDA
+      <div className="w-full px-8 py-4 grid grid-cols-2 md:grid-cols-3 items-center">
+        {/* Column 1: Logo */}
+        <div className="flex justify-start">
+          <div className="font-serif text-cyan-400 text-lg md:text-xl tracking-wider font-bold">
+            <span className="opacity-50">劍</span> NDA
+          </div>
         </div>
 
-        <div className="hidden md:flex gap-8 items-center">
-          {NAV_LINKS.map(link => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-sm font-semibold text-slate-400 hover:text-cyan-300 transition-colors tracking-wider relative group"
-            >
-              {link.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-cyan-400 transition-all duration-300 group-hover:w-full" />
-            </a>
-          ))}
+        {/* Column 2: Centered Links */}
+        <div className="hidden md:flex justify-center">
+          <div className="flex gap-8 lg:gap-12 items-center">
+            {NAV_LINKS.map(link => (
+              <NavbarLink key={link.label} {...link} />
+            ))}
+          </div>
         </div>
 
-        <a
-          href="mailto:ngoducanhzza@gmail.com"
-          className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 text-cyan-400 text-sm font-bold hover:bg-cyan-500/10 transition-all"
-        >
-          <Mail className="w-4 h-4" /> Liên hệ
-        </a>
-
-        <button onClick={() => setMobileOpen(v => !v)} className="md:hidden text-slate-300">
-          {mobileOpen ? <X /> : <Menu />}
-        </button>
+        {/* Column 3: Mobile Menu Trigger */}
+        <div className="flex justify-end">
+          <button onClick={() => setMobileOpen(v => !v)} className="md:hidden text-slate-300">
+            {mobileOpen ? <X /> : <Menu />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -80,7 +148,7 @@ function Navbar() {
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="text-slate-300 hover:text-cyan-400 font-semibold py-2 transition-colors"
+                  className="text-slate-300 hover:text-cyan-400 font-semibold py-2 transition-colors uppercase tracking-widest text-xs"
                 >
                   {link.label}
                 </a>
@@ -226,7 +294,8 @@ export default function App() {
         <WuxiaDivider char="誌" />
         <ErrorBoundary><AchievementsSection /></ErrorBoundary>
 
-        <footer className="border-t border-white/5 py-16 text-center mt-20">
+        {/* Footer */}
+        <footer id="footer" className="border-t border-white/5 py-16 text-center mt-20">
           <div className="font-serif text-5xl text-cyan-400/10 mb-6">劍</div>
           <p className="text-slate-500 text-xs tracking-[0.4em] uppercase mb-2">Made with ❤️ by</p>
           <h2 className="text-2xl font-black text-white tracking-tighter mb-6 italic uppercase">
