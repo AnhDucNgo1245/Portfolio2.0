@@ -12,10 +12,10 @@ import ErrorBoundary from "./components/ErrorBoundary";
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
-  { label: "Protocols", href: "#skills" },
-  { label: "Deployments", href: "#projects" },
+  { label: "Skills", href: "#skills" },
+  { label: "Projects", href: "#projects" },
   { label: "Archives", href: "#achievements" },
-  { label: "Comms", href: "#footer" },
+  { label: "Contact", href: "#footer" },
 ];
 
 function NavbarLink({ label, href }) {
@@ -70,10 +70,7 @@ function NavbarLink({ label, href }) {
                 strokeLinecap="round"
                 className="drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]"
               />
-              <path
-                d="M10.5 10L12 0L13.5 10L12 15L10.5 10Z"
-                fill="white"
-              />
+              <path d="M10.5 10L12 0L13.5 10L12 15L10.5 10Z" fill="white" />
 
               {/* Angled Tech Guard */}
               <path
@@ -82,7 +79,7 @@ function NavbarLink({ label, href }) {
                 stroke="currentColor"
                 strokeWidth="1.5"
               />
-              
+
               {/* Tech Hilt */}
               <rect
                 x="10"
@@ -94,13 +91,50 @@ function NavbarLink({ label, href }) {
                 stroke="currentColor"
                 strokeWidth="1"
               />
-              <line x1="9" y1="92" x2="15" y2="92" stroke="currentColor" strokeWidth="1" opacity="0.6" />
-              <line x1="9" y1="98" x2="15" y2="98" stroke="currentColor" strokeWidth="1" opacity="0.6" />
-              <line x1="9" y1="104" x2="15" y2="104" stroke="currentColor" strokeWidth="1" opacity="0.6" />
-              
+              <line
+                x1="9"
+                y1="92"
+                x2="15"
+                y2="92"
+                stroke="currentColor"
+                strokeWidth="1"
+                opacity="0.6"
+              />
+              <line
+                x1="9"
+                y1="98"
+                x2="15"
+                y2="98"
+                stroke="currentColor"
+                strokeWidth="1"
+                opacity="0.6"
+              />
+              <line
+                x1="9"
+                y1="104"
+                x2="15"
+                y2="104"
+                stroke="currentColor"
+                strokeWidth="1"
+                opacity="0.6"
+              />
+
               {/* Glowing Power Cell inside Pommel */}
-              <circle cx="12" cy="112" r="3" fill="#0f172a" stroke="currentColor" strokeWidth="1" />
-              <circle cx="12" cy="112" r="1.5" fill="#fde047" className="animate-pulse shadow-[0_0_5px_rgba(253,224,71,1)]" />
+              <circle
+                cx="12"
+                cy="112"
+                r="3"
+                fill="#0f172a"
+                stroke="currentColor"
+                strokeWidth="1"
+              />
+              <circle
+                cx="12"
+                cy="112"
+                r="1.5"
+                fill="#fde047"
+                className="animate-pulse shadow-[0_0_5px_rgba(253,224,71,1)]"
+              />
 
               {/* Data Stream / Energy Emitting */}
               <motion.g
@@ -111,7 +145,15 @@ function NavbarLink({ label, href }) {
                   ease: "linear",
                 }}
               >
-                <line x1="12" y1="117" x2="12" y2="135" stroke="currentColor" strokeWidth="1" strokeDasharray="3 2" />
+                <line
+                  x1="12"
+                  y1="117"
+                  x2="12"
+                  y2="135"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  strokeDasharray="3 2"
+                />
                 <rect x="11" y="137" width="2" height="3" fill="currentColor" />
                 <rect x="10.5" y="125" width="3" height="1" fill="white" />
               </motion.g>
@@ -156,8 +198,11 @@ function Navbar() {
       <div className="w-full px-8 py-4 grid grid-cols-2 md:grid-cols-3 items-center">
         {/* Column 1: Logo */}
         <div className="flex justify-start">
-          <div className="font-serif text-cyan-400 text-lg md:text-xl tracking-wider font-bold">
-            <span className="opacity-50">✦</span> NDA
+          <div className="font-cyber text-cyan-400 text-lg md:text-xl tracking-wider font-bold">
+            <span className="opacity-50">✦</span>{" "}
+            <span className="glitch-text" data-text="DA's Portfolio">
+              DA's Portfolio
+            </span>
           </div>
         </div>
 
@@ -275,16 +320,16 @@ function HeroSection() {
             transition={{ delay: 1.0 }}
             className="flex gap-4 items-center"
           >
-            <a href="#about" className="btn-primary">
+            <a href="#about" className="btn-cyber">
               Explore
             </a>
             <a
               href="https://github.com/AnhDucNgo1245"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-bold text-sm"
+              className="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-all font-mono font-bold text-xs uppercase tracking-widest"
             >
-              <Github className="w-5 h-5" /> GitHub
+              <Github className="w-5 h-5" /> // GITHUB_LINK
             </a>
           </motion.div>
         </div>
@@ -319,7 +364,9 @@ function CyberDivider({ icon = "❖" }) {
   return (
     <div className="flex items-center gap-6 px-6 max-w-6xl mx-auto py-4 opacity-40">
       <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-cyan-400" />
-      <span className="font-mono text-xl text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-pulse">{icon}</span>
+      <span className="font-mono text-xl text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-pulse">
+        {icon}
+      </span>
       <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent via-cyan-500/50 to-cyan-400" />
     </div>
   );
@@ -335,12 +382,16 @@ export default function App() {
         fallback={
           <div
             className="fixed inset-0 z-0"
-            style={{ background: "#050e1a" }}
+            style={{ background: "#020617" }}
           />
         }
       >
         <ThreeBackground />
       </ErrorBoundary>
+
+      {/* Premium Global Overlays */}
+      <div className="cyber-grid-floor" />
+      <div className="scanlines" />
 
       <Navbar />
 
@@ -368,7 +419,9 @@ export default function App() {
           id="footer"
           className="border-t border-white/5 py-16 text-center mt-20"
         >
-          <div className="font-mono text-5xl text-cyan-400/10 mb-6 tracking-widest">{"</>"}</div>
+          <div className="font-mono text-5xl text-cyan-400/10 mb-6 tracking-widest">
+            {"</>"}
+          </div>
           <p className="text-slate-500 text-xs tracking-[0.4em] uppercase mb-2">
             Made with ❤️ by
           </p>

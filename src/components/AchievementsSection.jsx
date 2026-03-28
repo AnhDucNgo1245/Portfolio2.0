@@ -37,10 +37,10 @@ function AchievementItem({ item, index }) {
     >
       {/* Year + line */}
       <div className="flex flex-col items-center w-14 shrink-0 pt-1">
-        <div className="text-[10px] font-mono font-bold tracking-widest" style={{ color: style.color, textShadow: `0 0 8px ${style.color}80` }}>
+        <div className="text-[11px] font-mono font-black tracking-widest text-center" style={{ color: style.color, textShadow: `0 0 10px ${style.color}80` }}>
           {item.year}
         </div>
-        <div className="flex-1 w-px mt-2" style={{ background: `linear-gradient(to bottom, ${style.color}80, transparent)` }} />
+        <div className="flex-1 w-[2px] mt-3" style={{ background: `linear-gradient(to bottom, ${style.color}80, transparent)` }} />
       </div>
 
       {/* Cyber Node */}
@@ -60,14 +60,14 @@ function AchievementItem({ item, index }) {
 
       {/* Content */}
       <div className="pb-8 flex-1 border-l-2 border-transparent group-hover:border-cyan-500/30 pl-4 transition-colors">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-[8px] font-mono font-bold uppercase tracking-[0.2em] px-2 py-0.5 border"
-            style={{ color: style.color, borderColor: style.color + '40', background: style.color + '10', boxShadow: `inset 0 0 5px ${style.color}20` }}>
+        <div className="flex items-center gap-3 mb-3">
+          <span className="text-[9px] font-mono font-black uppercase tracking-[0.3em] px-2.5 py-1 border"
+            style={{ color: style.color, borderColor: style.color + '50', background: style.color + '15', boxShadow: `inset 0 0 8px ${style.color}20` }}>
             {style.label}
           </span>
           <div className="h-px bg-slate-800 flex-1 hidden sm:block" />
         </div>
-        <p className="text-slate-300 font-mono text-sm tracking-wide group-hover:text-white transition-colors leading-relaxed group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] relative">
+        <p className="text-slate-200 font-mono text-[13px] tracking-wide group-hover:text-white transition-all leading-relaxed uppercase font-bold relative">
           {item.name}
           {/* Glitch sub-layer on hover */}
           <span className="absolute inset-0 text-cyan-400 opacity-0 group-hover:opacity-100 -translate-x-0.5 translate-y-0.5 mix-blend-screen pointer-events-none transition-opacity duration-75">
@@ -85,7 +85,8 @@ function AchievementItem({ item, index }) {
 export default function AchievementsSection() {
   return (
     <SectionWrapper id="achievements" title="UNLOCKED ARCHIVES" subtitle="milestones">
-      <div className="max-w-3xl mx-auto relative bg-[#020617]/90 border border-cyan-500/30 p-8 md:p-12 shadow-[0_0_30px_rgba(6,182,212,0.1)]">
+      <div className="max-w-4xl mx-auto relative bg-[#020617]/95 border border-cyan-500/20 p-8 md:p-14 shadow-[0_0_40px_rgba(0,0,0,0.8)]"
+           style={{ clipPath: 'polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px)' }}>
         {/* Terminal Scanlines Overlay */}
         <div className="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.8)_50%)] bg-[size:100%_4px]" />
         

@@ -106,13 +106,23 @@ export default function IDCard() {
           <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.05)_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:linear-gradient(to_bottom,transparent,black,transparent)]" />
         </div>
 
-        {/* Holographic Scanline Overlay */}
+        {/* Holographic Scanline Overlay & Laser Scanner */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl z-20">
           <motion.div
             animate={{ y: ["-100%", "200%"] }}
             transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
             className="w-full h-1/4 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent"
           />
+          {/* Vertical Laser Scanner Line */}
+          <motion.div
+            animate={{ y: ["-20%", "120%"] }}
+            transition={{ repeat: Infinity, duration: 3, ease: "easeInOut", repeatDelay: 1 }}
+            className="absolute top-0 left-0 right-0 h-[2px] bg-cyan-400 shadow-[0_0_15px_rgba(6,182,212,1)] z-30"
+          >
+            <div className="absolute right-2 -top-4 text-[8px] font-mono text-cyan-400 animate-pulse">
+              SCANNING...
+            </div>
+          </motion.div>
         </div>
 
         {/* Gloss overlay */}
@@ -140,6 +150,15 @@ export default function IDCard() {
         </div>
 
         <div className="relative px-5 py-6 flex flex-col items-center z-10">
+          {/* Floating HUD Greebles */}
+          <div className="absolute top-4 left-4 text-[6px] font-mono text-cyan-500/40 select-none">
+            TRK_04: 128.4 <br />
+            ST_V: 0.941
+          </div>
+          <div className="absolute top-4 right-4 text-[6px] font-mono text-cyan-500/40 select-none text-right">
+            AUTH_LVL: 04 <br />
+            ID_NOD: ALPHA
+          </div>
           {/* Cyber-Targeting Avatar */}
           <div className="relative mb-6 mt-1">
             {/* Spinning Reticles */}
@@ -238,8 +257,8 @@ export default function IDCard() {
         </div>
       </motion.div>
 
-      <p className="text-slate-600 text-xs mt-4 tracking-widest uppercase animate-pulse">
-        ✦ Drag to rotate ✦
+      <p className="text-slate-600 text-[10px] mt-4 tracking-[0.4em] uppercase animate-pulse font-mono flex items-center gap-2">
+        <span className="w-1 h-3 bg-cyan-500/20" /> ✦ DRAG_TO_ROTATE ✦ <span className="w-1 h-3 bg-cyan-500/20" />
       </p>
     </div>
   );
