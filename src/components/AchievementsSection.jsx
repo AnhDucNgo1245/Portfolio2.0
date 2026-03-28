@@ -4,112 +4,147 @@ import { Database } from 'lucide-react'
 import SectionWrapper from './SectionWrapper'
 
 const ACHIEVEMENTS = [
-  { year: '2016', name: 'Encouragement Award - AMC Australia', type: 'award' },
-  { year: '2017', name: 'Encouragement Award - AMC Australia', type: 'award' },
-  { year: '2017', name: 'Encouragement Award - City-level Computer Programming', type: 'award' },
-  { year: '2018', name: 'City-level Excellent Student - Lao Cai City', type: 'award' },
-  { year: '2018', name: '3rd Prize - City-level Scientific Research', type: 'award' },
-  { year: '2018', name: 'Encouragement Award - City-level Physics', type: 'award' },
-  { year: '2018', name: 'Encouragement Award - AMC Australia', type: 'award' },
-  { year: '2023', name: 'IELTS 6.0 Certificate', type: 'cert' },
-  { year: '2024', name: 'Top 7 – CodeFest 2024 (JSClub – FPT University)', type: 'comp' },
-  { year: '2025', name: 'Top 8 – Startup Olympics 2025 (NEU)', type: 'comp' },
+  { year: '2025', name: 'Top 8 – Startup Olympics 2025 (NEU)', type: 'comp', tag: 'STARTUP_OLY' },
+  { year: '2024', name: 'Top 7 – CodeFest 2024 (JSClub – FPT University)', type: 'comp', tag: 'CODEFEST' },
+  { year: '2023', name: 'IELTS 6.0 Certificate', type: 'cert', tag: 'IELTS_VERIF' },
+  { year: '2018', name: 'Encouragement Award - AMC Australia', type: 'award', tag: 'AMC_AUS' },
+  { year: '2018', name: 'Encouragement Award - City-level Physics', type: 'award', tag: 'PROG_PHYS' },
+  { year: '2018', name: '3rd Prize - City-level Scientific Research', type: 'award', tag: 'SCI_RES' },
+  { year: '2018', name: 'Excellent Student - Lao Cai City', type: 'award', tag: 'EXCEL_STUD' },
+  { year: '2017', name: 'Encouragement Award - Computer Programming', type: 'award', tag: 'PROG_COMP' },
+  { year: '2017', name: 'Encouragement Award - AMC Australia', type: 'award', tag: 'AMC_AUS' },
+  { year: '2016', name: 'Encouragement Award - AMC Australia', type: 'award', tag: 'AMC_AUS' },
 ]
 
 const TYPE_STYLES = {
-  award: { color: '#fbbf24', label: 'AWARD_LOG' },
-  cert:  { color: '#06b6d4', label: 'CERT_DATA' },
-  comp:  { color: '#10b981', label: 'COMP_RECORD' },
+  award: { color: '#fbbf24', label: 'AWARD' },
+  cert:  { color: '#06b6d4', label: 'CERT' },
+  comp:  { color: '#10b981', label: 'COMP' },
 }
 
-function AchievementItem({ item, index }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-30px' })
+// Group achievements by year
+const GROUPED_ACHIEVEMENTS = ACHIEVEMENTS.reduce((acc, curr) => {
+  if (!acc[curr.year]) acc[curr.year] = [];
+  acc[curr.year].push(curr);
+  return acc;
+}, {});
+
+const YEARS = Object.keys(GROUPED_ACHIEVEMENTS).sort((a, b) => b - a);
+
+function AchievementCard({ item, index }) {
   const style = TYPE_STYLES[item.type]
 
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, x: -30 }}
-      animate={inView ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.07 }}
-      className="flex gap-5 group relative"
+      whileHover={{ y: -5, x: 5 }}
+      className="relative mb-4 group last:mb-0"
     >
-      {/* Year + line */}
-      <div className="flex flex-col items-center w-14 shrink-0 pt-1">
-        <div className="text-[11px] font-mono font-black tracking-widest text-center" style={{ color: style.color, textShadow: `0 0 10px ${style.color}80` }}>
-          {item.year}
-        </div>
-        <div className="flex-1 w-[2px] mt-3" style={{ background: `linear-gradient(to bottom, ${style.color}80, transparent)` }} />
-      </div>
-
-      {/* Cyber Node */}
-      <div className="mt-1 shrink-0">
-        <motion.div
-          whileHover={{ scale: 1.5, rotate: 45 }}
-          className="w-3 h-3 rotate-45 border mt-0.5"
-          style={{
-            borderColor: style.color,
-            background: style.color + '20',
-            boxShadow: `0 0 10px ${style.color}80`
-          }}
-        >
-          <div className="w-full h-full bg-white opacity-40 group-hover:opacity-100 group-hover:animate-ping transition-opacity" />
-        </motion.div>
-      </div>
-
-      {/* Content */}
-      <div className="pb-8 flex-1 border-l-2 border-transparent group-hover:border-cyan-500/30 pl-4 transition-colors">
-        <div className="flex items-center gap-3 mb-3">
-          <span className="text-[9px] font-mono font-black uppercase tracking-[0.3em] px-2.5 py-1 border"
-            style={{ color: style.color, borderColor: style.color + '50', background: style.color + '15', boxShadow: `inset 0 0 8px ${style.color}20` }}>
+      {/* Decorative Border Glow on Hover */}
+      <div className="absolute -inset-0.5 bg-gradient-to-r from-transparent via-cyan-500/0 to-transparent group-hover:via-cyan-500/20 rounded-lg blur transition-all duration-500" />
+      
+      <div className="relative bg-[#0a1120]/40 border border-slate-800 group-hover:border-cyan-500/30 p-4 backdrop-blur-md transition-all duration-300">
+        <div className="flex items-center gap-3 mb-2">
+          <span className="text-[8px] font-mono font-black uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border"
+            style={{ color: style.color, borderColor: style.color + '40', background: style.color + '10' }}>
             {style.label}
           </span>
-          <div className="h-px bg-slate-800 flex-1 hidden sm:block" />
+          <span className="text-[8px] font-mono text-slate-500 tracking-widest uppercase">#{item.tag}</span>
         </div>
-        <p className="text-slate-200 font-mono text-[13px] tracking-wide group-hover:text-white transition-all leading-relaxed uppercase font-bold relative">
+
+        <h4 className="text-white font-cyber text-[13px] sm:text-[15px] tracking-wide group-hover:text-cyan-400 transition-all leading-tight uppercase font-black">
           {item.name}
-          {/* Glitch sub-layer on hover */}
-          <span className="absolute inset-0 text-cyan-400 opacity-0 group-hover:opacity-100 -translate-x-0.5 translate-y-0.5 mix-blend-screen pointer-events-none transition-opacity duration-75">
-            {item.name}
-          </span>
-          <span className="absolute inset-0 text-pink-500 opacity-0 group-hover:opacity-100 translate-x-0.5 -translate-y-0.5 mix-blend-screen pointer-events-none transition-opacity duration-150">
-            {item.name}
-          </span>
-        </p>
+        </h4>
       </div>
     </motion.div>
+  )
+}
+
+function YearBlock({ year, items, isFirst }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <div ref={ref} className="relative pl-12 sm:pl-20 mb-16 last:mb-0">
+      {/* Year Label */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        className="absolute left-0 top-0 flex flex-col items-center"
+      >
+        <div className="text-2xl sm:text-3xl font-black text-white/20 select-none font-cyber">
+          {year}
+        </div>
+        
+        {/* Connection Node */}
+        <div className="relative mt-2">
+          <div className="w-3 h-3 bg-[#020617] border-2 border-cyan-500 rotate-45 relative z-10" />
+          <div className="absolute inset-x-0 top-1.5 h-[1px] w-12 sm:w-20 bg-gradient-to-r from-cyan-500 to-transparent -translate-x-full" />
+          {isFirst && (
+            <div className="absolute -inset-2 bg-cyan-500/20 blur-sm rounded-full animate-pulse" />
+          )}
+        </div>
+      </motion.div>
+
+      {/* Vertical Stem Line Fragment */}
+      <div className="absolute left-[5.5px] top-4 bottom-[-64px] w-[1px] bg-gradient-to-b from-cyan-500 via-cyan-500/20 to-transparent opacity-20" />
+
+      {/* Cards List */}
+      <div className="space-y-4">
+        {items.map((item, i) => (
+          <AchievementCard key={i} item={item} index={i} />
+        ))}
+      </div>
+    </div>
   )
 }
 
 export default function AchievementsSection() {
   return (
     <SectionWrapper id="achievements" title="UNLOCKED ARCHIVES" subtitle="milestones">
-      <div className="max-w-4xl mx-auto relative bg-[#020617]/95 border border-cyan-500/20 p-8 md:p-14 shadow-[0_0_40px_rgba(0,0,0,0.8)]"
-           style={{ clipPath: 'polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px)' }}>
-        {/* Terminal Scanlines Overlay */}
-        <div className="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.8)_50%)] bg-[size:100%_4px]" />
+      <div className="max-w-4xl mx-auto relative px-4 md:px-0">
         
-        {/* Corner Brackets */}
-        <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-cyan-500/50" />
-        <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-cyan-500/50" />
-        <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-cyan-500/50" />
-        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-cyan-500/50" />
-
-        <div className="flex items-center gap-3 mb-10 border-b border-cyan-500/20 pb-4 relative z-10">
-          <Database className="w-5 h-5 text-cyan-400 drop-shadow-[0_0_5px_currentColor] animate-pulse" />
-          <span className="text-cyan-400/80 text-xs font-mono uppercase tracking-[0.3em] flex items-center gap-2">
-            SYSTEM_LOGS
-            <div className="w-2 h-0.5 bg-cyan-400/50 animate-ping" />
-          </span>
+        {/* Terminal Dashboard Header */}
+        <div className="max-w-4xl mx-auto mb-16 relative bg-[#020617]/95 border border-cyan-500/20 p-6 shadow-[0_0_40px_rgba(0,0,0,0.8)]"
+             style={{ clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)' }}>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative z-10">
+            <div className="flex items-center gap-3">
+              <Database className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_5px_currentColor] animate-pulse" />
+              <div className="flex flex-col">
+                <span className="text-white text-[10px] font-black uppercase tracking-[0.4em] font-cyber">
+                  CHRONOLOGY_SYSTEM
+                </span>
+                <span className="text-cyan-500/50 text-[8px] font-mono uppercase tracking-[0.2em]">
+                  UPLINK_STATUS: SECURE // DESCENDING_REFS
+                </span>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4 text-[9px] font-mono tracking-[0.2em] text-cyan-400/50">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-green-500 animate-pulse" />
+                SYNC_ONLINE
+              </div>
+              <div className="w-px h-6 bg-slate-800 mx-2 hidden sm:block" />
+              <div className="hidden sm:block">REF: ARCH.V3.0</div>
+            </div>
+          </div>
         </div>
-        
-        <div className="relative z-10">
-          {ACHIEVEMENTS.map((item, i) => (
-            <AchievementItem key={i} item={item} index={i} />
+
+        {/* Timeline Container */}
+        <div className="relative">
+          {YEARS.map((year, i) => (
+            <YearBlock 
+              key={year} 
+              year={year} 
+              items={GROUPED_ACHIEVEMENTS[year]} 
+              isFirst={i === 0}
+            />
           ))}
         </div>
       </div>
     </SectionWrapper>
   )
 }
+
+
+
