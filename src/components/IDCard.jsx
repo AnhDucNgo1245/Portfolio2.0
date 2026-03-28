@@ -24,35 +24,63 @@ export default function IDCard() {
     springConfig,
   );
 
-  function handleMouseMove(e) {
-    const rect = cardRef.current.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    x.set(e.clientX - cx);
-    y.set(e.clientY - cy);
-  }
-
-  function handleMouseLeave() {
+  function handleDragEnd() {
+    setIsDragging(false);
     x.set(0);
     y.set(0);
   }
 
   return (
-    <div className="flex flex-col items-center select-none">
-      {/* Ribbon / Lanyard */}
-      <svg width="60" height="60" viewBox="0 0 60 60" className="mb-0">
-        <path
-          d="M30 0 Q20 20 15 40 Q20 50 30 60 Q40 50 45 40 Q40 20 30 0Z"
-          fill="url(#ribbon)"
-          opacity="0.9"
+    <div className="flex flex-col items-center select-none relative">
+      {/* Dynamic Cyber Plasma Tether Canvas */}
+      <svg className="absolute top-[-60px] left-1/2 -translate-x-1/2 w-[300px] h-[300px] pointer-events-none z-10" style={{ overflow: "visible" }}>
+        {/* Fixed Energy Beam Anchor to Dragged Position */}
+        <motion.line
+          x1="150" y1="30"
+          x2={useTransform(x, v => 150 + v)}
+          y2={useTransform(y, v => 96 + v)}
+          stroke="#22d3ee" strokeWidth="4"
+          className="drop-shadow-[0_0_15px_rgba(34,211,238,1)]"
         />
-        <defs>
-          <linearGradient id="ribbon" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#1e3a5f" />
-            <stop offset="100%" stopColor="#06b6d4" />
-          </linearGradient>
-        </defs>
+        <motion.line
+          x1="150" y1="30"
+          x2={useTransform(x, v => 150 + v)}
+          y2={useTransform(y, v => 96 + v)}
+          stroke="#ffffff" strokeWidth="1.5"
+        />
+        <motion.line
+          x1="150" y1="30"
+          x2={useTransform(x, v => 150 + v)}
+          y2={useTransform(y, v => 96 + v)}
+          stroke="#ffffff" strokeWidth="6"
+          strokeDasharray="4 8"
+          className="opacity-50"
+        />
+
+        {/* Dynamic Tech Clamp */}
+        <motion.g
+          style={{
+            x: useTransform(x, v => 130 + v), // 150 - 20 (half width of 40)
+            y: useTransform(y, v => 96 + v)   // securely locked onto the card's top edge
+          }}
+          className="drop-shadow-[0_5px_8px_rgba(6,182,212,0.5)]"
+        >
+          {/* Clamp Base Hexagon */}
+          <path d="M12 0 L28 0 L36 10 L32 20 L24 28 L16 28 L8 20 L4 10 Z" fill="#020617" stroke="#22d3ee" strokeWidth="1.5" />
+          
+          {/* Inner Glowing Core */}
+          <circle cx="20" cy="14" r="5" fill="#0f172a" stroke="#22d3ee" strokeWidth="1" />
+          <circle cx="20" cy="14" r="2.5" fill="#38bdf8" className="animate-pulse shadow-[0_0_8px_currentColor]" />
+          
+          {/* Accent Lines */}
+          <line x1="8" y1="10" x2="14" y2="14" stroke="#22d3ee" strokeWidth="1.5" opacity="0.7" />
+          <line x1="32" y1="10" x2="26" y2="14" stroke="#22d3ee" strokeWidth="1.5" opacity="0.7" />
+          <rect x="16" y="2" width="8" height="3" fill="#22d3ee" opacity="0.8" />
+        </motion.g>
       </svg>
+
+      {/* Spacing to compensate for the absolute tether */}
+      <div className="h-[60px]" />
 
       <motion.div
         ref={cardRef}
@@ -61,24 +89,35 @@ export default function IDCard() {
         dragElastic={0.12}
         dragTransition={{ timeConstant: 300, power: 0.3 }}
         onDragStart={() => setIsDragging(true)}
-        onDragEnd={() => setIsDragging(false)}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+        onDragEnd={handleDragEnd}
         style={{
+          x,
+          y,
           rotateX,
           rotateY,
           transformStyle: "preserve-3d",
           cursor: isDragging ? "grabbing" : "grab",
         }}
         whileHover={{ scale: 1.03 }}
-        className="relative w-72 rounded-2xl overflow-hidden shadow-2xl shadow-cyan-900/40 border border-cyan-500/30"
+        className="relative w-64 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(6,182,212,0.3)] border border-cyan-500/50 bg-[#020617] group"
       >
-        {/* Card background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-[#0c1a2e] to-slate-900" />
+        {/* Cyber Grid Background */}
+        <div className="absolute inset-0 overflow-hidden bg-[#050e1a]">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.05)_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:linear-gradient(to_bottom,transparent,black,transparent)]" />
+        </div>
+
+        {/* Holographic Scanline Overlay */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl z-20">
+          <motion.div
+            animate={{ y: ["-100%", "200%"] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+            className="w-full h-1/4 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent"
+          />
+        </div>
 
         {/* Gloss overlay */}
         <motion.div
-          className="absolute inset-0 rounded-2xl pointer-events-none"
+          className="absolute inset-0 rounded-2xl pointer-events-none z-30"
           style={{
             background: useTransform(
               gloss,
@@ -88,108 +127,119 @@ export default function IDCard() {
           }}
         />
 
-        {/* Top accent bar */}
-        <div className="relative h-3 w-full bg-gradient-to-r from-cyan-600 via-emerald-400 to-cyan-600" />
-
-        {/* Wuxia decorative lines */}
-        <div className="relative px-6 py-6 flex flex-col items-center">
-          {/* Cyber-Wuxia Top Decoration */}
-          <div className="w-full flex justify-between items-center mb-6 px-2 opacity-80">
-            {/* Left Tech Bars */}
-            <div className="flex gap-1.5">
-              {[...Array(3)].map((_, i) => (
-                <div key={`l-${i}`} className="w-4 h-1.5 bg-cyan-500/50 rounded-full skew-x-[30deg] shadow-[0_0_8px_rgba(6,182,212,0.5)]" />
-              ))}
-            </div>
-            
-            {/* Center Cyber-Seal */}
-            <div className="relative flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-              <div className="absolute inset-0 bg-cyan-400/40 blur-md rounded-full" />
-              <div className="w-9 h-9 border border-cyan-400/60 rotate-45 flex items-center justify-center bg-slate-900/90 z-10 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-                <span className="font-serif text-cyan-300 -rotate-45 text-base drop-shadow-[0_0_8px_rgba(34,211,238,0.9)] font-bold">
-                  ✦
-                </span>
-              </div>
-            </div>
-
-            {/* Right Tech Bars */}
-            <div className="flex gap-1.5 flex-row-reverse">
-              {[...Array(3)].map((_, i) => (
-                <div key={`r-${i}`} className="w-4 h-1.5 bg-emerald-500/50 rounded-full -skew-x-[30deg] shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-              ))}
-            </div>
+        {/* Top Warning/Status Bar */}
+        <div className="relative h-4 w-full bg-slate-900 border-b border-cyan-500/30 flex items-center justify-between px-3 z-10">
+          <div className="flex gap-1">
+            <div className="w-1.5 h-1.5 bg-cyan-400 animate-pulse rounded-full" />
+            <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
+            <div className="w-1.5 h-1.5 bg-yellow-400/50 rounded-full" />
           </div>
+          <span className="text-[8px] text-cyan-400/70 tracking-[0.3em] font-mono">
+            SYS.REQ // 0x4A
+          </span>
+        </div>
 
-          {/* Avatar */}
-          <div className="relative mb-6">
-            <div className="absolute -inset-1.5 rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400 blur-sm opacity-50 group-hover:opacity-70 transition-opacity duration-500 animate-pulse" />
+        <div className="relative px-5 py-6 flex flex-col items-center z-10">
+          {/* Cyber-Targeting Avatar */}
+          <div className="relative mb-6 mt-1">
+            {/* Spinning Reticles */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+              className="absolute -inset-3 rounded-full border border-dashed border-cyan-500/40"
+            />
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ repeat: Infinity, duration: 35, ease: "linear" }}
+              className="absolute -inset-4 rounded-full border-[1.5px] border-t-cyan-400/60 border-r-emerald-400/60 border-b-transparent border-l-transparent"
+            />
+            <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-cyan-500 to-emerald-500 blur-md opacity-30 group-hover:opacity-60 transition-opacity duration-300" />
+
             <img
               src={avatarImg}
               alt="Avatar"
-              className="relative w-32 h-32 rounded-full object-cover object-[center_35%] border-2 border-white/10 shadow-lg"
+              className="relative w-28 h-28 rounded-full object-cover object-[center_35%] border-2 border-cyan-400/70 shadow-[0_0_15px_rgba(6,182,212,0.5)] bg-slate-900"
               draggable={false}
             />
+
+            {/* Tech Scope Accents */}
+            <div className="absolute -left-5 top-1/2 -translate-y-1/2 w-3 h-[1px] bg-cyan-500/60" />
+            <div className="absolute -right-5 top-1/2 -translate-y-1/2 w-3 h-[1px] bg-cyan-500/60" />
+            <div className="absolute left-1/2 -top-5 -translate-x-1/2 w-[1px] h-3 bg-emerald-500/60" />
+            <div className="absolute left-1/2 -bottom-5 -translate-x-1/2 w-[1px] h-3 bg-emerald-500/60" />
           </div>
 
-          {/* Name */}
-          <h2 className="text-white font-black text-2xl tracking-wider uppercase mb-1.5 drop-shadow">
-            NGÔ ĐỨC ANH
-          </h2>
-          <p className="text-cyan-400 text-xs font-semibold uppercase tracking-[0.2em] mb-4">
-            Full-stack Developer
+          {/* Glitch Name */}
+          <div className="relative mb-2 mt-4 text-center">
+            <h2 className="text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-white font-black text-2xl tracking-[0.14em] uppercase drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] whitespace-nowrap">
+              NGO DUC ANH
+            </h2>
+          </div>
+          <p className="text-cyan-400 text-[10px] font-mono uppercase tracking-[0.2em] mb-4 flex items-center justify-center gap-2 bg-cyan-950/40 px-3 py-1 rounded-full border border-cyan-500/20 shadow-[inset_0_0_8px_rgba(6,182,212,0.2)]">
+            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping" />
+            SYSTEM_ARCHITECT
           </p>
 
-          {/* Divider */}
-          <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent mb-4" />
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent mb-5" />
 
-          {/* Info rows */}
-          <div className="w-full space-y-1 text-xs text-slate-400 mb-4">
-            <div className="flex justify-between">
-              <span className="text-slate-600">Email</span>
-              <span>ngoducanhzza@gmail.com</span>
+          {/* HUD Info Rows */}
+          <div className="w-full space-y-2 text-[10px] font-mono text-slate-400 mb-6 px-1">
+            <div className="flex justify-between items-center bg-slate-900/50 p-1.5 rounded border border-white/5">
+              <span className="text-cyan-600/70 tracking-wider">
+                EMAIL_LINK
+              </span>
+              <span className="text-slate-300">ngoducanhzza@gmail.com</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-slate-600">GitHub</span>
+            <div className="flex justify-between items-center bg-slate-900/50 p-1.5 rounded border border-white/5">
+              <span className="text-cyan-600/70 tracking-wider">NET_HUB</span>
               <span className="text-cyan-400">AnhDucNgo1245</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-slate-600">School</span>
-              <span>FPT University</span>
+            <div className="flex justify-between items-center bg-slate-900/50 p-1.5 rounded border border-white/5">
+              <span className="text-cyan-600/70 tracking-wider">FACILITY</span>
+              <span className="text-slate-300 flex items-center gap-1">
+                FPT ACADEMY
+                <div className="w-1 h-2 bg-emerald-500/80 skew-x-12 animate-pulse" />
+              </span>
             </div>
           </div>
 
-          {/* Bottom QR placeholder decoration */}
-          <div className="w-full flex items-center justify-between">
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <div
-                  key={i}
-                  className={`w-1 bg-cyan-500/30 rounded-sm`}
-                  style={{ height: `${8 + i * 3}px` }}
-                />
-              ))}
+          {/* Bottom Data Processing Bar */}
+          <div className="w-full flex flex-col gap-1.5">
+            <div className="flex justify-between items-end">
+              <span className="text-[8px] text-cyan-500/70 font-mono tracking-widest">
+                UPLINK_STATUS
+              </span>
+              <span className="text-[9px] text-emerald-400 font-mono tracking-widest animate-pulse">
+                STABLE
+              </span>
             </div>
-            <p className="text-[9px] text-slate-600 tracking-widest">
-              CYBER-SWORDCRAFT
-            </p>
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <div
-                  key={i}
-                  className={`w-1 bg-emerald-500/30 rounded-sm`}
-                  style={{ height: `${20 - i * 3}px` }}
-                />
-              ))}
+            <div className="w-full h-0.5 bg-slate-800 rounded-full overflow-hidden">
+              <motion.div
+                animate={{ width: ["0%", "100%", "0%"] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 4,
+                  ease: "easeInOut",
+                }}
+                className="h-full bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
+              />
+            </div>
+            <div className="flex justify-between items-center mt-1">
+              <div className="flex gap-0.5">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className={`w-0.5 h-[5px] bg-cyan-500/40`} />
+                ))}
+              </div>
+              <p className="text-[7px] text-cyan-700 font-mono tracking-widest">
+                ID: CYBER-DEV-1245
+              </p>
             </div>
           </div>
         </div>
-
-        {/* Bottom accent */}
-        <div className="h-3 w-full bg-gradient-to-r from-cyan-900/50 via-emerald-900/50 to-cyan-900/50 border-t border-white/5" />
       </motion.div>
 
       <p className="text-slate-600 text-xs mt-4 tracking-widest uppercase animate-pulse">
-        ✦ Kéo thẻ để xoay ✦
+        ✦ Drag to rotate ✦
       </p>
     </div>
   );

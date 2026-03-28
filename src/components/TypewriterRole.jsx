@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const TEXTS = ["Lập trình viên", "Full-stack Developer", "FPT University"];
+const TEXTS = ["Software Developer", "Full-stack Developer", "FPT University"];
 
 export default function TypewriterRole() {
   const [index, setIndex] = useState(0);

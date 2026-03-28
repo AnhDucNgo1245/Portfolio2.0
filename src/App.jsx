@@ -11,11 +11,11 @@ import AchievementsSection from "./components/AchievementsSection";
 import ErrorBoundary from "./components/ErrorBoundary";
 
 const NAV_LINKS = [
-  { label: "Về tôi", href: "#about" },
-  { label: "Kỹ năng", href: "#skills" },
-  { label: "Dự án", href: "#projects" },
-  { label: "Thành tích", href: "#achievements" },
-  { label: "Liên hệ", href: "#footer" },
+  { label: "About", href: "#about" },
+  { label: "Protocols", href: "#skills" },
+  { label: "Deployments", href: "#projects" },
+  { label: "Archives", href: "#achievements" },
+  { label: "Comms", href: "#footer" },
 ];
 
 function NavbarLink({ label, href }) {
@@ -37,96 +37,83 @@ function NavbarLink({ label, href }) {
               y: -15,
               opacity: 1,
               scaleY: 1,
-              rotate: [0, -2, 2, -1, 1, 0],
             }}
             exit={{ x: -25, y: 60, opacity: 0, scaleY: 0.5 }}
             transition={{
               y: { type: "spring", stiffness: 700, damping: 18 },
-              rotate: { duration: 0.25, delay: 0.05 },
             }}
             className="absolute z-0 pointer-events-none flex flex-col items-center"
           >
-            {/* Traditional Chinese Jian (Kiếm Hiệp) */}
+            {/* Cyber Plasma Saber (Yellow) */}
             <svg
               width="24"
               height="150"
               viewBox="0 0 24 150"
               fill="none"
-              className="text-yellow-500 drop-shadow-[0_0_15px_rgba(234,179,8,0.9)]"
+              className="text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,0.9)]"
             >
-              {/* Blade - Double edged straight sword */}
+              {/* Plasma Blade Aura */}
               <path
                 d="M12 10L12 85"
                 stroke="currentColor"
+                strokeWidth="7"
+                strokeLinecap="round"
+                opacity="0.5"
+                className="blur-[1px]"
+              />
+
+              {/* Plasma Blade Core */}
+              <path
+                d="M12 10L12 85"
+                stroke="white"
                 strokeWidth="2.5"
                 strokeLinecap="round"
+                className="drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]"
               />
               <path
                 d="M10.5 10L12 0L13.5 10L12 15L10.5 10Z"
-                fill="currentColor"
+                fill="white"
               />
 
-              {/* Guard (Cloud-shaped Tsuba) */}
+              {/* Angled Tech Guard */}
               <path
-                d="M6 85C6 82 18 82 18 85L12 91L6 85Z"
-                fill="currentColor"
+                d="M6 82L12 85L18 82L12 89Z"
+                fill="#0f172a"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+              
+              {/* Tech Hilt */}
+              <rect
+                x="10"
+                y="86"
+                width="4"
+                height="22"
+                rx="1"
+                fill="#0f172a"
                 stroke="currentColor"
                 strokeWidth="1"
               />
+              <line x1="9" y1="92" x2="15" y2="92" stroke="currentColor" strokeWidth="1" opacity="0.6" />
+              <line x1="9" y1="98" x2="15" y2="98" stroke="currentColor" strokeWidth="1" opacity="0.6" />
+              <line x1="9" y1="104" x2="15" y2="104" stroke="currentColor" strokeWidth="1" opacity="0.6" />
+              
+              {/* Glowing Power Cell inside Pommel */}
+              <circle cx="12" cy="112" r="3" fill="#0f172a" stroke="currentColor" strokeWidth="1" />
+              <circle cx="12" cy="112" r="1.5" fill="#fde047" className="animate-pulse shadow-[0_0_5px_rgba(253,224,71,1)]" />
 
-              {/* Handle (Wrapped Tsuka) */}
-              <path
-                d="M12 91L12 110"
-                stroke="currentColor"
-                strokeWidth="4.5"
-                strokeLinecap="round"
-              />
-              <path
-                d="M10 95L14 97M10 99L14 101M10 103L14 105"
-                stroke="rgba(0,0,0,0.3)"
-                strokeWidth="1.5"
-              />
-
-              {/* Pommel with Tassel loop */}
-              <circle cx="12" cy="113" r="3" fill="currentColor" />
-
-              {/* Swinging Tassel (Tua rua) */}
+              {/* Data Stream / Energy Emitting */}
               <motion.g
-                animate={{ rotate: [0, -10, 10, 0] }}
+                animate={{ y: [0, 6, 0], opacity: [0.3, 0.8, 0.3] }}
                 transition={{
                   repeat: Infinity,
-                  duration: 3,
-                  ease: "easeInOut",
+                  duration: 1.2,
+                  ease: "linear",
                 }}
-                style={{ originX: "12px", originY: "113px" }}
               >
-                <path
-                  d="M12 113L10 135M12 113L12 145M12 113L14 135"
-                  stroke="currentColor"
-                  strokeWidth="1"
-                  opacity="0.7"
-                />
-                <circle
-                  cx="10"
-                  cy="135"
-                  r="1.5"
-                  fill="currentColor"
-                  opacity="0.6"
-                />
-                <circle
-                  cx="12"
-                  cy="145"
-                  r="1.5"
-                  fill="currentColor"
-                  opacity="0.6"
-                />
-                <circle
-                  cx="14"
-                  cy="135"
-                  r="1.5"
-                  fill="currentColor"
-                  opacity="0.6"
-                />
+                <line x1="12" y1="117" x2="12" y2="135" stroke="currentColor" strokeWidth="1" strokeDasharray="3 2" />
+                <rect x="11" y="137" width="2" height="3" fill="currentColor" />
+                <rect x="10.5" y="125" width="3" height="1" fill="white" />
               </motion.g>
             </svg>
           </motion.div>
@@ -237,7 +224,7 @@ function HeroSection() {
           >
             <div className="h-[1px] w-8 bg-cyan-500" />
             <span className="text-cyan-400/70 text-sm font-bold uppercase tracking-[0.3em]">
-              Xin chào, mình là
+              Hello, I am
             </span>
           </motion.div>
 
@@ -247,9 +234,9 @@ function HeroSection() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-5xl md:text-7xl font-black text-white leading-tight tracking-tighter mb-4"
           >
-            NGÔ
+            NGO
             <br />
-            <span className="text-gradient">ĐỨC ANH</span>
+            <span className="text-gradient">DUC ANH</span>
           </motion.h1>
 
           <motion.div
@@ -289,7 +276,7 @@ function HeroSection() {
             className="flex gap-4 items-center"
           >
             <a href="#about" className="btn-primary">
-              Khám phá
+              Explore
             </a>
             <a
               href="https://github.com/AnhDucNgo1245"
@@ -320,7 +307,7 @@ function HeroSection() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <span className="text-slate-600 text-[9px] uppercase tracking-[0.4em]">
-          Cuộn xuống
+          Scroll Down
         </span>
         <ChevronDown className="w-5 h-5 text-slate-600" />
       </motion.div>
@@ -328,12 +315,12 @@ function HeroSection() {
   );
 }
 
-function WuxiaDivider({ char = "❖" }) {
+function CyberDivider({ icon = "❖" }) {
   return (
-    <div className="flex items-center gap-6 px-6 max-w-6xl mx-auto py-4 opacity-20">
-      <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-cyan-500" />
-      <span className="font-serif text-2xl text-cyan-400">{char}</span>
-      <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-cyan-500" />
+    <div className="flex items-center gap-6 px-6 max-w-6xl mx-auto py-4 opacity-40">
+      <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-cyan-400" />
+      <span className="font-mono text-xl text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-pulse">{icon}</span>
+      <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent via-cyan-500/50 to-cyan-400" />
     </div>
   );
 }
@@ -359,19 +346,19 @@ export default function App() {
 
       <div className="relative z-10">
         <HeroSection />
-        <WuxiaDivider char="劍" />
+        <CyberDivider icon="✦" />
         <ErrorBoundary>
           <AboutSection />
         </ErrorBoundary>
-        <WuxiaDivider char="道" />
+        <CyberDivider icon="❖" />
         <ErrorBoundary>
           <SkillsSection />
         </ErrorBoundary>
-        <WuxiaDivider char="功" />
+        <CyberDivider icon="⚡" />
         <ErrorBoundary>
           <ProjectsSection />
         </ErrorBoundary>
-        <WuxiaDivider char="誌" />
+        <CyberDivider icon="✧" />
         <ErrorBoundary>
           <AchievementsSection />
         </ErrorBoundary>
@@ -386,7 +373,7 @@ export default function App() {
             Made with ❤️ by
           </p>
           <h2 className="text-2xl font-black text-white tracking-tighter mb-6 italic uppercase">
-            Ngô Đức Anh
+            Ngo Duc Anh
           </h2>
           <div className="flex justify-center gap-6">
             <a

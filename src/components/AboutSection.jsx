@@ -1,95 +1,184 @@
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
-import { Mail, Phone, MapPin, GraduationCap, Calendar } from 'lucide-react'
-import SectionWrapper from './SectionWrapper'
-import avatarImg from '../assets/avatar.png'
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Mail, Phone, MapPin, GraduationCap, Calendar } from "lucide-react";
+import SectionWrapper from "./SectionWrapper";
+import avatarImg from "../assets/avt abt me.png";
 
 export default function AboutSection() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
 
   return (
-    <SectionWrapper id="about" title="Về tôi" subtitle="about me">
-      <div ref={ref} className="grid md:grid-cols-2 gap-12 items-center">
-        {/* Photo */}
+    <SectionWrapper id="about" title="About Me" subtitle="system.identity">
+      <div
+        ref={ref}
+        className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center"
+      >
+        {/* Photo with Cyber Radar */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8 }}
           className="flex justify-center"
         >
-          <div className="relative">
-            {/* Wuxia decorative rings */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 20, ease: 'linear' }}
-              className="absolute -inset-6 rounded-full border border-dashed border-cyan-500/20"
-            />
+          <div className="relative w-64 h-64 md:w-80 md:h-80 lg:-left-4 mx-auto mt-4">
+            {/* Cyber Radar Background */}
+            <div className="absolute inset-0 rounded-full border border-cyan-500/20 overflow-hidden bg-slate-900/50 shadow-[inset_0_0_50px_rgba(6,182,212,0.1)]">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+                className="w-full h-full origin-center"
+                style={{
+                  background:
+                    "conic-gradient(from 0deg, transparent 70%, rgba(6,182,212,0.4) 100%)",
+                }}
+              />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(5,14,26,0.8)_80%)]" />
+              <div className="absolute top-1/2 w-full h-[1px] bg-cyan-500/30" />
+              <div className="absolute left-1/2 h-full w-[1px] bg-cyan-500/30" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 h-2/3 rounded-full border border-cyan-500/20" />
+            </div>
+
+            {/* Rotating Tech Rings */}
             <motion.div
               animate={{ rotate: -360 }}
-              transition={{ repeat: Infinity, duration: 30, ease: 'linear' }}
-              className="absolute -inset-10 rounded-full border border-dashed border-emerald-500/10"
+              transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
+              className="absolute -inset-4 rounded-full border-[1.5px] border-dashed border-cyan-500/40"
             />
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-400 to-emerald-400 blur-2xl opacity-20" />
-            
-            <img
-              src={avatarImg}
-              alt="Ngô Đức Anh"
-              className="relative w-72 h-72 object-cover rounded-2xl border border-white/10 shadow-2xl"
-            />
-            
-            {/* Floating badge */}
             <motion.div
-              animate={{ y: [-6, 6, -6] }}
-              transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-              className="absolute -bottom-4 -right-4 bg-slate-900 border border-cyan-500/30 rounded-xl px-4 py-2 shadow-xl"
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
+              className="absolute -inset-8 rounded-full border-[2px] border-emerald-500/20 opacity-50"
+              style={{
+                borderLeftColor: "transparent",
+                borderRightColor: "transparent",
+              }}
+            />
+
+            <div className="absolute inset-3 overflow-hidden rounded-full border-[3px] border-cyan-400/50 shadow-[0_0_25px_rgba(6,182,212,0.3)] bg-slate-900">
+              <img
+                src={avatarImg}
+                alt="Ngô Đức Anh"
+                className="relative w-full h-full object-cover object-[center_35%] opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-700"
+              />
+            </div>
+
+            {/* Floating Data Badge */}
+            <motion.div
+              animate={{ y: [-4, 4, -4] }}
+              transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+              className="absolute -bottom-2 -right-4 lg:-right-8 bg-[#0a1526]/90 border-l-2 border-emerald-400 px-5 py-3 shadow-[0_0_20px_rgba(16,185,129,0.3)] flex flex-col gap-0.5 backdrop-blur-md z-10"
+              style={{
+                clipPath:
+                  "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)",
+              }}
             >
-              <div className="text-xl font-black text-white">2+</div>
-              <div className="text-[10px] text-cyan-400 uppercase tracking-wider">Năm kinh nghiệm</div>
+              <div className="text-emerald-400 text-[9px] font-mono tracking-widest uppercase flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                EXP_LOG
+              </div>
+              <div className="text-2xl font-black text-white leading-none tracking-wider">
+                2+{" "}
+                <span className="text-xs text-slate-400 font-mono tracking-widest">
+                  YRS
+                </span>
+              </div>
             </motion.div>
           </div>
         </motion.div>
 
-        {/* Info */}
+        {/* Info Terminal */}
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="space-y-8"
+          className="space-y-7"
         >
           <div>
-            <h3 className="text-2xl font-black text-white mb-4">
-              Chào! Mình là <span className="text-gradient">Đức Anh</span>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-1.5 h-1.5 bg-cyan-400 animate-pulse rounded-full shadow-[0_0_5px_rgba(34,211,238,1)]" />
+              <div className="text-[10px] text-cyan-400 font-mono tracking-[0.4em]">
+                USER_PROFILE
+              </div>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-white mb-4 uppercase tracking-wider drop-shadow-md">
+              Hello! I am{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]">
+                Duc Anh
+              </span>
             </h3>
-            <p className="text-slate-400 leading-relaxed">
-              Sinh viên năm 2 ngành Kỹ thuật Phần mềm tại <span className="text-cyan-400 font-semibold">Đại học FPT</span>, 
-              đam mê phát triển ứng dụng Fullstack và Game. Thành thạo tiếng Anh (IELTS 6.0), 
-              đang học thêm tiếng Nhật.
-            </p>
+
+            <div className="relative bg-slate-900/60 border border-slate-800 p-5 backdrop-blur-sm shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
+              {/* Target Brackets */}
+              <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-cyan-500/60" />
+              <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-cyan-500/60" />
+              <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-cyan-500/60" />
+              <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-cyan-500/60" />
+
+              <p className="text-slate-300 leading-relaxed font-sans text-sm sm:text-base relative z-10">
+                Sophomore majoring in Software Engineering at{" "}
+                <span className="text-cyan-400 font-semibold drop-shadow-[0_0_5px_rgba(34,211,238,0.5)]">
+                  FPT University
+                </span>
+                , passionate about Fullstack Web and Game development. Proficient in
+                English (IELTS 6.0), currently learning Japanese.
+              </p>
+            </div>
           </div>
 
-          {/* Contact info */}
-          <div className="glass-card p-6 space-y-3">
+          {/* Contact info HUD */}
+          <div className="grid sm:grid-cols-2 gap-3">
             {[
-              { icon: Calendar, text: '12/04/2005' },
-              { icon: Phone, text: '0968 315 859' },
-              { icon: Mail, text: 'ngoducanhzza@gmail.com' },
-              { icon: MapPin, text: 'Vạn Phúc, Hà Đông, Hà Nội' },
-              { icon: GraduationCap, text: 'Đại học FPT – Software Engineering' },
-            ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-3 text-sm text-slate-300">
-                <Icon className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span>{text}</span>
+              { icon: Calendar, text: "12/04/2005", label: "D.O.B" },
+              { icon: Phone, text: "0968 315 859", label: "COMMS" },
+              { icon: Mail, text: "ng.ducanh1245@...", label: "NET_LINK" },
+              { icon: MapPin, text: "Hanoi", label: "GEO_LOC" },
+              { icon: GraduationCap, text: "FPT Univ", label: "FACILITY" },
+            ].map(({ icon: Icon, text, label }) => (
+              <div
+                key={label}
+                className="group relative flex items-center gap-3 bg-[#0a1526] border border-white/5 p-2 px-3 overflow-hidden shadow-inner"
+              >
+                <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-cyan-500/30 group-hover:bg-cyan-400 transition-colors shadow-[0_0_5px_rgba(34,211,238,0.5)]" />
+                <div className="bg-slate-800/80 p-1.5 rounded border border-white/5">
+                  <Icon className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_3px_rgba(34,211,238,0.8)]" />
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[8px] text-slate-500 font-mono tracking-[0.2em]">
+                    {label}
+                  </span>
+                  <span className="text-xs text-slate-300 font-mono truncate">
+                    {text}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
 
-          {/* Hobbies */}
+          {/* Hobbies Core Subroutines */}
           <div>
-            <div className="text-xs text-slate-500 uppercase tracking-widest mb-3">Sở thích</div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-4 h-[1px] bg-emerald-500/60" />
+              <div className="text-[10px] text-emerald-400 font-mono tracking-[0.3em] uppercase">
+                Sub_Routines
+              </div>
+              <div className="flex-1 h-[1px] bg-gradient-to-r from-emerald-500/40 to-transparent" />
+            </div>
             <div className="flex flex-wrap gap-2">
-              {['💪 Bóng bàn', '🏀 Bóng rổ', '🎵 Nghe nhạc', '🎮 Chơi game'].map(h => (
-                <span key={h} className="text-sm px-3 py-1.5 glass-card border border-white/10 hover:border-cyan-500/30 transition-colors cursor-default">
+              {[
+                "🏓 Table Tennis",
+                "🏀 Basketball",
+                "🎵 Listening to Music",
+                "🎮 Gaming",
+              ].map((h) => (
+                <span
+                  key={h}
+                  className="text-xs px-4 py-1.5 bg-[#02100d] text-emerald-300 border border-emerald-500/40 hover:bg-emerald-900/40 hover:border-emerald-400/80 transition-all cursor-default shadow-[inset_0_0_8px_rgba(16,185,129,0.15)] font-mono flex items-center gap-1.5"
+                  style={{
+                    clipPath:
+                      "polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)",
+                  }}
+                >
                   {h}
                 </span>
               ))}
@@ -98,5 +187,5 @@ export default function AboutSection() {
         </motion.div>
       </div>
     </SectionWrapper>
-  )
+  );
 }
